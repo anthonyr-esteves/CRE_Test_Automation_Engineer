@@ -429,7 +429,7 @@ O trabalho reflete:
 
 👤 Autor: Anthony Esteves
 
-🐙 GitHub: [Anthony Esteves](https://github.com/anthonyqateste/)
+🐙 GitHub: [Anthony Esteves](https://github.com/anthonyr-esteves/)
 
 🔗 LinkedIn: [Anthony R. Esteves](https://www.linkedin.com/in/anthonyr-esteves/)
 
