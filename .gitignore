@@ -1,0 +1,12 @@
+# Dependências
+node_modules/
+
+# Relatórios Playwright
+playwright-report/
+test-results/
+
+# Logs
+*.log
+
+# Sistema
+.DS_Store
