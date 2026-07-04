@@ -1,0 +1,9 @@
+export const MENSAGENS_REGISTRO = {
+  sucesso: "Cadastro realizado com sucesso! Faça login.",
+  senhasDiferentes: "As senhas não conferem.",
+};
+
+export const MENSAGENS_LOGIN = {
+  sucesso: "Login realizado com sucesso!",
+  erroCredenciais: "Email ou senha incorretos",
+};

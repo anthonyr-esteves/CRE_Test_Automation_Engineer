@@ -1,44 +1,41 @@
 import { test, expect } from "@playwright/test";
+
 import RegistroPage from "../paginas/registro.page";
-import gerarEmailUnico from "../utilitarios/geradorEmail";
 import LoginPage from "../paginas/login.page";
+
+import gerarEmailUnico from "../utilitarios/geradorEmail";
+import { ROTAS } from "../utilitarios/rotas";
+import { MENSAGENS_LOGIN, MENSAGENS_REGISTRO } from "../utilitarios/mensagens";
+import {
+  validarURL,
+  obterUsuarioLocalStorage,
+} from "../utilitarios/testHelpers";
+import { DADOS_TESTE } from "../utilitarios/dadosTeste";
+import { CREDENCIAIS_INVALIDAS } from "../utilitarios/dadosInvalidos";
 
 test.describe("Registro e Login", () => {
   test("CT-FE-001 - Fluxo Completo de Registro (Aluno)", async ({ page }) => {
     const registroPage = new RegistroPage(page);
+    const loginPage = new LoginPage(page);
     const email = gerarEmailUnico();
 
-    // Acessar página de registro
-    await page.goto("/registro.html");
+    await page.goto(ROTAS.registro);
+    await registroPage.validarPaginaRegistro();
 
-    // Preencher formulário
     await registroPage.preencherFormulario(
-      "Carlos Oliveira",
+      DADOS_TESTE.nome,
       email,
-      "senha123",
-      "senha123",
+      DADOS_TESTE.senhaValida,
+      DADOS_TESTE.senhaValida,
     );
 
-    // Listener do alert
-    page.once("dialog", (dialog) => {
-      expect(dialog.message()).toBe(
-        "Cadastro realizado com sucesso! Faça login.",
-      );
-      dialog.accept();
-    });
+    registroPage.validarDialog(MENSAGENS_REGISTRO.sucesso);
 
-    // Clicar em Registrar
     await registroPage.clicarRegistrar();
+    await validarURL(page, ROTAS.login);
 
-    // Validar redirecionamento
-    await expect(page).toHaveURL("/login.html");
-
-    // Validar que estamos na página de login
-    await expect(page.getByRole("heading", { name: "Login" })).toBeVisible();
-
-    // Validar que os campos de login estão vazios
-    await expect(page.getByRole("textbox", { name: "Email:" })).toHaveValue("");
-    await expect(page.getByRole("textbox", { name: "Senha:" })).toHaveValue("");
+    await loginPage.validarPaginaLogin();
+    await loginPage.validarCamposVazios();
   });
 
   test("CT-FE-002 - Validação de Senhas Não Correspondentes", async ({
@@ -47,72 +44,52 @@ test.describe("Registro e Login", () => {
     const registroPage = new RegistroPage(page);
     const email = gerarEmailUnico();
 
-    // Acessar página de registro
-    await page.goto("/registro.html");
+    await page.goto(ROTAS.registro);
+    await registroPage.validarPaginaRegistro();
 
-    // Preencher formulário com senhas diferentes
     await registroPage.preencherFormulario(
-      "Carlos Oliveira",
+      DADOS_TESTE.nome,
       email,
-      "senha123",
-      "senhaErrada",
+      DADOS_TESTE.senhaValida,
+      DADOS_TESTE.senhaInvalida,
     );
 
-    // Listener do alert
-    page.once("dialog", (dialog) => {
-      expect(dialog.message()).toBe("As senhas não conferem.");
-      dialog.accept();
-    });
+    registroPage.validarDialog(MENSAGENS_REGISTRO.senhasDiferentes);
 
-    // Clicar em Registrar
     await registroPage.clicarRegistrar();
-
-    // Validar que NÃO houve redirecionamento
-    await expect(page).toHaveURL("/registro.html");
+    await validarURL(page, ROTAS.registro);
   });
 
   test("CT-FE-003 - Login com Sucesso (Admin)", async ({ page }) => {
     const loginPage = new LoginPage(page);
 
-    // Login como Admin
     await loginPage.loginComoAdmin();
 
-    // Validar mensagem de boas-vindas do Admin
     await expect(page.locator("#msg-tipo")).toHaveText(
       "Olá, Admin Master! Você está logado como ADMINISTRADOR.",
     );
 
-    // Validar tipo de utilizador no localStorage
-    const usuario = await page.evaluate(() =>
-      JSON.parse(localStorage.getItem("usuario")),
-    );
-
+    const usuario = await obterUsuarioLocalStorage(page);
     expect(usuario.tipo).toBe(3);
   });
 
   test("CT-FE-004 - Login Inválido (Credenciais Erradas)", async ({ page }) => {
     const loginPage = new LoginPage(page);
 
-    // Acessar página de login
-    await page.goto("/login.html");
+    await page.goto(ROTAS.login);
+    await loginPage.validarPaginaLogin();
 
-    // Preencher credenciais inválidas
-    await loginPage.preencherCredenciais("admin@biblioteca.com", "errada");
+    await loginPage.preencherCredenciais(
+      CREDENCIAIS_INVALIDAS.adminSenhaErrada.email,
+      CREDENCIAIS_INVALIDAS.adminSenhaErrada.senha,
+    );
 
-    // Listener do alert
-    page.once("dialog", (dialog) => {
-      expect(dialog.message()).toBe("Email ou senha incorretos");
-      dialog.accept();
-    });
+    loginPage.validarDialog(MENSAGENS_LOGIN.erroCredenciais);
 
-    // Clicar em Entrar
     await loginPage.clicarEntrar();
+    await validarURL(page, ROTAS.login);
 
-    // Validar que NÃO houve redirecionamento
-    await expect(page).toHaveURL("/login.html");
-
-    // Validar que NÃO existe usuário no localStorage
-    const usuario = await page.evaluate(() => localStorage.getItem("usuario"));
+    const usuario = await obterUsuarioLocalStorage(page);
     expect(usuario).toBeNull();
   });
 });
