@@ -18,14 +18,14 @@ class RegistroPage {
     this.btnRegistrar = page.getByRole("button", { name: "Registrar" });
   }
 
-  // 👉 Valida que a página de registro carregou
+  // Valida que a página de registro carregou
   async validarPaginaRegistro() {
     await expect(
       this.page.getByRole("heading", { name: "Criar Conta" }),
     ).toBeVisible();
   }
 
-  // 👉 Valida o diálogo com mensagem dinâmica
+  // Valida o diálog com mensagem dinâmica
   validarDialog(mensagem) {
     this.page.once("dialog", (dialog) => {
       expect(dialog.message()).toBe(mensagem);
@@ -33,7 +33,7 @@ class RegistroPage {
     });
   }
 
-  // 👉 Preenche todos os campos do formulário
+  // Preenche todos os campos do formulário
   async preencherFormulario(nome, email, senha, confirmarSenha) {
     await this.nome.fill(nome);
     await this.email.fill(email);
@@ -41,7 +41,7 @@ class RegistroPage {
     await this.confirmarSenha.fill(confirmarSenha);
   }
 
-  // 👉 Clica no botão Registrar
+  // Clica no botão Registrar
   async clicarRegistrar() {
     await this.btnRegistrar.click();
   }
