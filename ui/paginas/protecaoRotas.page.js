@@ -1,6 +1,6 @@
 import { expect } from "@playwright/test";
 
-export default class DashboardPage {
+export default class ProtecaoRotasPage {
   constructor(page) {
     this.page = page;
   }

@@ -1,6 +1,6 @@
 import { test } from "@playwright/test";
 import LoginPage from "../paginas/login.page";
-import DashboardPage from "../paginas/dashboard.page";
+import ProtecaoRotasPage from "../paginas/protecaoRotas.page";
 
 import { MENU_ALUNO, MENU_ADMIN } from "../../constantes/menus";
 import { ROTAS } from "../utilitarios/rotas";
@@ -23,13 +23,13 @@ test.describe("Proteção de Rotas e Navegação", () => {
 
   test("CT-FE-006 - Menu Dinâmico - Aluno", async ({ page }) => {
     const loginPage = new LoginPage(page);
-    const dashboardPage = new DashboardPage(page);
+    const protecaoRotasPage = new ProtecaoRotasPage(page);
 
     await loginPage.loginComoAluno();
 
     await validarURL(page, ROTAS.dashboard);
 
-    await dashboardPage.validarMenuItens(MENU_ALUNO);
+    await protecaoRotasPage.validarMenuItens(MENU_ALUNO);
 
     const rotasAluno = {
       Livros: ROTAS.livros,
@@ -40,7 +40,7 @@ test.describe("Proteção de Rotas e Navegação", () => {
     };
 
     for (const item of MENU_ALUNO.filter((i) => i !== "Dashboard")) {
-      await dashboardPage.clicarMenu(item);
+      await protecaoRotasPage.clicarMenu(item);
       await validarURL(page, rotasAluno[item]);
       await page.goto(ROTAS.dashboard);
     }
@@ -48,15 +48,15 @@ test.describe("Proteção de Rotas e Navegação", () => {
 
   test("CT-FE-007 - Menu Dinâmico - Admin", async ({ page }) => {
     const loginPage = new LoginPage(page);
-    const dashboardPage = new DashboardPage(page);
+    const protecaoRotasPage = new ProtecaoRotasPage(page);
 
     await loginPage.loginComoAdmin();
 
     await validarURL(page, ROTAS.dashboard);
 
-    await dashboardPage.validarMenuItens(MENU_ADMIN);
+    await protecaoRotasPage.validarMenuItens(MENU_ADMIN);
 
-    await dashboardPage.clicarMenu("Usuários (Admin)");
+    await protecaoRotasPage.clicarMenu("Usuários (Admin)");
     await validarURL(page, ROTAS.adminUsuarios);
 
     await validarHeading(page, "Administração de Usuários");
