@@ -78,6 +78,7 @@ class LoginPage {
   // Logout clicando no botão "Sair"
   async logout() {
     await this.page.getByRole("button", { name: "Sair" }).click();
+    await expect(this.page).toHaveURL("/login.html");
   }
 }
 
