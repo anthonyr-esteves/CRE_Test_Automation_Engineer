@@ -22,3 +22,9 @@ export const MENSAGENS_ARRENDAMENTOS = {
   confirmarAprovacao: "Confirmar aprovação",
   sucessoAprovar: "Arrendamento aprovado!",
 };
+
+export const MENSAGENS_COMPRAS = {
+  confirmarAprovacao: "Confirmar alteração da compra",
+  sucessoAprovar: "Status atualizado com sucesso!",
+  sucessoRegistrar: "Compra registrada com sucesso! Aguarde aprovação.",
+};

@@ -8,5 +8,6 @@ export const ROTAS = {
   aprovacoes: "/aprovacoes.html",
   compras: "/compras.html",
   minhasCompras: "/minhas-compras.html",
+  comprasAdmin: "/compras-admin.html",
   adminUsuarios: "/admin-usuarios.html",
 };
