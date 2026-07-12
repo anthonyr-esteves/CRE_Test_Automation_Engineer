@@ -1,4 +1,3 @@
-// tests/ui/paginas/livros.page.js
 import { expect } from "@playwright/test";
 import { MENSAGENS_LIVROS } from "../utilitarios/mensagens";
 
@@ -52,5 +51,13 @@ export default class LivrosPage {
   async abrirPrimeiroLivro() {
     await expect(this.cards.first()).toBeVisible();
     await this.cards.first().click();
+  }
+
+  async abrirLivroPorNome(nome) {
+    const card = this.page.locator(".book-card").filter({
+      has: this.page.getByRole("heading", { name: nome }),
+    });
+
+    await card.first().click();
   }
 }
