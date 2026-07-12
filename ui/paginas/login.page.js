@@ -74,6 +74,11 @@ class LoginPage {
   async loginComoAluno() {
     await this.login(CREDENCIAIS.aluno.email, CREDENCIAIS.aluno.senha);
   }
+
+  // Logout clicando no botão "Sair"
+  async logout() {
+    await this.page.getByRole("button", { name: "Sair" }).click();
+  }
 }
 
 export default LoginPage;

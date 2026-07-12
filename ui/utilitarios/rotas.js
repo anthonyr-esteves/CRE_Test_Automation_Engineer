@@ -5,6 +5,7 @@ export const ROTAS = {
   livros: "/livros.html",
   favoritos: "/favoritos.html",
   arrendamentos: "/arrendamentos.html",
+  aprovacoes: "/aprovacoes.html",
   compras: "/compras.html",
   minhasCompras: "/minhas-compras.html",
   adminUsuarios: "/admin-usuarios.html",
