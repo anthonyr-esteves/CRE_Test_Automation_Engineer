@@ -1,33 +1,39 @@
-import LoginPage from "../paginas/login.page";
+import { expect } from "@playwright/test";
 
+import LoginPage from "../paginas/login.page";
+import ComprasPage from "../paginas/compras.page";
+import { ROTAS } from "../utilitarios/rotas";
+import { MENSAGENS_COMPRAS } from "../utilitarios/mensagens";
+
+// Cria uma compra pendente como aluno e devolve o ID
 export async function criarCompraPendente(page) {
   const loginPage = new LoginPage(page);
+  const comprasPage = new ComprasPage(page);
 
   // Login como aluno
-  await page.goto("/login.html");
-  await loginPage.preencherCredenciais("aluna@teste.com", "123456");
+  await loginPage.loginComoAluno();
 
-  page.once("dialog", (dialog) => dialog.accept());
-  await loginPage.clicarEntrar();
-  await page.waitForURL("/dashboard.html");
+  // Navegar para compras e selecionar primeiro livro
+  await comprasPage.navegar();
+  const primeiroCard = await comprasPage.obterPrimeiroCard();
 
-  // Criar compra
-  await page.goto("/compras.html");
-  const primeiroCard = page.locator(".book-card").first();
+  // Alert de sucesso ao comprar
+  page.once("dialog", (dialog) => {
+    expect(dialog.message()).toBe(MENSAGENS_COMPRAS.sucessoRegistrar);
+    dialog.accept();
+  });
 
-  page.once("dialog", (dialog) => dialog.accept());
-  await primeiroCard.getByRole("button", { name: "Comprar" }).click();
+  await comprasPage.comprar(primeiroCard);
 
-  // Obter ID da compra
-  await page.goto("/minhas-compras.html");
+  // Obter ID da compra em Minhas Compras
+  await page.goto(ROTAS.minhasCompras);
   const ultimoCard = page.locator(".book-card").last();
 
   const texto = await ultimoCard.locator("h3").innerText();
   const idCompra = texto.replace("Compra #", "").trim();
 
   // Logout aluno
-  await page.goto("/dashboard.html");
-  await page.getByRole("button", { name: "Sair" }).click();
+  await loginPage.logout();
 
   return idCompra;
 }
