@@ -16,3 +16,9 @@ export const MENSAGENS_FAVORITOS = {
   sucessoAdicionar: "Adicionado aos favoritos!",
   sucessoRemover: "Removido dos favoritos!",
 };
+
+export const MENSAGENS_ARRENDAMENTOS = {
+  sucessoSolicitar: "Arrendamento solicitado com sucesso!",
+  confirmarAprovacao: "Confirmar aprovação",
+  sucessoAprovar: "Arrendamento aprovado!",
+};
