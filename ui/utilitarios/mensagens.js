@@ -11,3 +11,8 @@ export const MENSAGENS_LOGIN = {
 export const MENSAGENS_LIVROS = {
   sucessoCadastro: "Livro adicionado com sucesso!",
 };
+
+export const MENSAGENS_FAVORITOS = {
+  sucessoAdicionar: "Adicionado aos favoritos!",
+  sucessoRemover: "Removido dos favoritos!",
+};
