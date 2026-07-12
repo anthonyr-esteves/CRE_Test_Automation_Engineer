@@ -4,7 +4,7 @@ Este repositório contém a solução completa desenvolvida para o Hands-on Lab 
 
 O objetivo do projeto é automatizar os testes funcionais do Sistema de Biblioteca, cobrindo:
 
-- Testes de API (REST)
+- Testes de API REST
 - Testes de UI (Frontend Web)
 - Validação de regras de negócio e perfis de utilizador
 - Cenários de sucesso, erro e validação
@@ -12,36 +12,39 @@ O objetivo do projeto é automatizar os testes funcionais do Sistema de Bibliote
 A automação foi construída com foco em:
 - Estrutura modular e escalável
 - Reutilização de código (helpers, page objects, utilitários)
-- Testes independentes e estáveis
-- Documentação clara e profissional
+- Testes independentes, determinísticos e estáveis
+- Documentação clara, profissional e alinhada com boas práticas de QA Automation
 
 ---
 
 ## 🛠️ Tecnologias Utilizadas
 
-Este projeto foi desenvolvido utilizando uma stack moderna e amplamente adotada na automação de testes.
+Este projeto foi desenvolvido utilizando uma stack moderna e amplamente adotada na automação de testes, garantindo estabilidade, escalabilidade e facilidade de manutenção.
 
 ### Linguagem
-- JavaScript (Node.js)
+- JavaScript (Node.js) — linguagem principal para testes de API e UI
 
 ### Framework de Testes
-- Playwright Test (@playwright/test)
+- Playwright Test (@playwright/test) — runner nativo, rápido e estável
 
 ### Automação de UI
-- Playwright (Chromium, Firefox, WebKit)
+- Playwright com suporte a:
+    Chromium
+    Firefox
+    WebKit
 
 ### Automação de API
-- Playwright APIRequestContext (HTTP Client nativo)
+- Playwright APIRequestContext — cliente HTTP nativo para testes REST
 
 ### Arquitetura e Organização
-- Page Object Model (POM)
-- Helpers e utilitários reutilizáveis
-- Separação entre testes de API e UI
-- Estrutura modular e escalável
+- Page Object Model (POM) para todas as páginas de UI
+- Helpers reutilizáveis para fluxos comuns e dados
+- Separação clara entre testes de API e UI
+- Estrutura modular, escalável e consistente
 
 ### Ambiente de Desenvolvimento
 - Visual Studio Code (VSCode)
-- Node.js (versão recomendada: 18+)
+- Node.js 18+ (versão recomendada)
 - Browsers instalados via Playwright (Chromium, Firefox, WebKit)
 
 ### Gestão de Dependências
@@ -49,18 +52,20 @@ Este projeto foi desenvolvido utilizando uma stack moderna e amplamente adotada 
 
 ### Relatórios
 - Playwright HTML Report
-- Traces automáticos para debugging
+- Screenshots automáticos em falhas
+- Vídeos automáticos em falhas
+- Traces automáticos para debugging avançado
 
 ---
 
 ## 📊 Relatório de Execução
 
-O relatório de execução **não é entregue como ficheiro**, pois é gerado automaticamente pelo Playwright a cada execução.  
-O objetivo desta secção é apenas **referenciar o relatório**, conforme solicitado no enunciado.
+O relatório de execução **não é commitado no repositório**, pois é gerado automaticamente pelo Playwright a cada execução.  
+Esta secção existe apenas para **referenciar o relatório**, conforme solicitado no enunciado da certificação CRE.
 
-O avaliador poderá consultar o relatório de duas formas:
+O avaliador pode consultar o relatório de duas formas:
 - executando os testes localmente
-- acedendo aos artefactos gerados pelo GitHub Actions
+- acessando os artefactos do CI (quando o GitHub Actions está ativo)
 
 ### 📁 Relatório Local (HTML Report)
 
@@ -84,20 +89,30 @@ Este relatório inclui todas as evidências exigidas:
 O Playwright gera automaticamente:
 
 - **Screenshots** → `test-results/**/screenshot.png`  
-- **Traces** → `test-results/**/trace.zip`  
+- **Traces** → `test-results/**/trace.zip`
+- **Vídeos** → `test-results/**/video.webm`  
 - **Logs** → integrados no HTML Report  
-- **Vídeos** (opcional) → `test-results/**/video.webm`
+- 
 
-Estas evidências **não são commitadas** no repositório, mas ficam disponíveis no relatório local e no relatório do CI.
+Estas evidências **não são commitadas** no repositório, pois:
+- são geradas dinamicamente
+- variam a cada execução
+- estão no `.gitignore` do Playwright
+- representam apenas a execução atual
 
 ### ☁️ Relatório no GitHub Actions (CI)
 
-O GitHub Actions executa a mesma suíte de testes contra o ambiente remoto: https://cre.mestre-qa.com/
+### ✔️ Nota Importante
+
+O GitHub Actions encontra‑se desativado para evitar bloqueio automático da conta, apesar de a configuração CI estar totalmente implementada e documentada no PDF de entrega.
+
+Quando ativo, o GitHub Actions executa a mesma suíte de testes contra o ambiente remoto: https://cre.mestre-qa.com/
 
 A pipeline gera automaticamente:
 - o HTML Report  
 - os traces  
-- os screenshots  
+- os screenshots
+- vídeos (quando configurados)  
 - os artefactos de execução  
 
 O avaliador pode descarregar estes artefactos diretamente da pipeline.
@@ -106,21 +121,21 @@ O requisito adicional do enunciado é cumprido quando:
 - **todos os testes passam no GitHub Actions**
 - o relatório CI fica disponível como artefacto
 
-### ✔️ Nota Importante
+### ✔️ Nota Final
 
-O relatório **não deve ser commitado** no repositório, pois:
+O relatório **não deve ser commitado** no repositório, porque:
 - é gerado dinamicamente  
-- está no `.gitignore` do Playwright  
-- representa apenas a execução atual  
-- o avaliador deve ver a execução real (local ou CI)
+- está no `.gitignore`
+- depende da execução atual  
+- deve ser consultado localmente ou via CI
 
 ---
 
 ## 📁 Estrutura do Projeto
 
-A organização do repositório segue uma arquitetura modular, separando claramente testes de API, testes de UI, helpers, páginas e configuração. Esta estrutura facilita a manutenção, escalabilidade e reutilização de código ao longo do projeto.
+A organização do repositório segue uma arquitetura modular, separando claramente testes de API, testes de UI, páginas (POM), helpers, utilitários e configuração. Esta estrutura garante manutenção simples, escalabilidade e reutilização de código, seguindo boas práticas de QA Automation.
 
-Abaixo encontra-se a estrutura principal do projeto, representada em formato de árvore de diretórios:
+Abaixo encontra-se a estrutura principal do projeto, representada em formato de árvore:
 
 ```text
 .
@@ -161,24 +176,36 @@ npx playwright install
 O Sistema de Biblioteca deve estar a correr antes de executar os testes de API e UI.  
 O servidor arranca em http://localhost:3000.
 
+Para iniciar:
+
 ```bash
 npm start
 ```
 
 ### 4. Configuração do ambiente
 O projeto utiliza o ficheiro `playwright.config.js` para definir:
-- URL base da aplicação
-- Timeout global
+- Base URL dinâmica (local vs ambiente remoto CRE)
+- Timeouts globais
 - Browsers utilizados
 - Diretórios de testes
-- Relatórios e traces
+- Relatórios HTML
+- evidências automáticas (screenshots, vídeos, traces)
 
 Não é necessária qualquer configuração adicional para executar os testes localmente.
 
-### Nota sobre GitHub Actions
-No ambiente de CI, os testes são executados contra o ambiente online disponibilizado pelo formador: https://cre.mestre-qa.com/.  
-O servidor local não é iniciado no GitHub Actions.  
-O objetivo é garantir que todos os testes passam em CI utilizando o ambiente remoto.
+### Nota sobre GitHub Actions (CI)
+**O GitHub Actions encontra‑se desativado para evitar bloqueio automático da conta**, apesar de a configuração CI estar totalmente implementada e documentada no PDF de entrega.
+
+Quando ativo, o CI executa os testes contra o ambiente remoto disponibilizado pelo formador: https://cre.mestre-qa.com/.  
+
+No CI:
+- o servidor local não é iniciado
+- os testes correm exclusivamente contra o ambiente remoto
+- são gerados artefactos (HTML Report, screenshots, traces, vídeos)
+
+O requisito do enunciado é cumprido quando:
+- todos os testes passam no CI
+- o relatório fica disponível como artefacto
 
 ---
 
@@ -235,60 +262,65 @@ npx playwright show-report
 
 ## 📑 Dados de Teste e Configuração
 
-Os testes utilizam dados de teste controlados e perfis de utilizador definidos pelo Sistema de Biblioteca.  
-Não é necessário criar utilizadores manualmente, uma vez que o backend já disponibiliza contas pré-configuradas.
+Os testes utilizam dados de teste controlados e perfis de utilizador fornecidos pelo Sistema de Biblioteca.  
+Não é necessário criar utilizadores manualmente, uma vez que o backend já disponibiliza contas pré-configuradas para cada perfil.
 
 ### Perfis disponíveis
 - Aluno
 - Funcionário
 - Administrador
 
-Cada perfil é utilizado conforme os requisitos funcionais de cada caso de teste.
+Cada perfil é utilizado conforme os requisitos funcionais de cada caso de teste, garantindo fidelidade ao comportamento real da aplicação.
 
 ### Ambiente de execução
 - Ambiente local: http://localhost:3000  
-- Ambiente CI (GitHub Actions): https://cre.mestre-qa.com/
+- Ambiente remoto (CRE): https://cre.mestre-qa.com/
 
-A seleção do ambiente é feita automaticamente através de variáveis de ambiente no `playwright.config.js`.
+A seleção do ambiente é feita automaticamente no `playwright.config.js`, através de variáveis de ambiente que determinam se a execução é local ou remota.
 
 ### Dados dinâmicos
-Os testes que requerem criação de livros, arrendamentos ou compras utilizam helpers para gerar dados válidos e independentes, garantindo:
+Alguns testes requerem criação de entidades como livros, arrendamentos ou compras. Para garantir estabilidade e independência entre testes, são utilizados helpers que geram dados válidos e únicos em cada execução.
+
+Isto assegura:
 - isolamento entre testes
 - ausência de dependência de estado
-- reprodutibilidade da execução
+- reprodutibilidade total da execução
+- evitar colisões de dados no backend
 
 ---
 
 ## 🧩 Boas Práticas Implementadas
 
-O projeto segue um conjunto de boas práticas de automação que garantem qualidade, estabilidade e facilidade de manutenção.
+O projeto segue um conjunto de boas práticas de automação que garantem qualidade, estabilidade e facilidade de manutenção, refletindo padrões utilizados em equipas profissionais de QA Automation.
 
 ### Estrutura modular
 - Separação clara entre testes de API e UI
-- Organização por pastas (pages, helpers, testes, constantes)
-- Reutilização de código através de funções utilitárias
+- Organização consistente por pastas (`pages`, `helpers`, `testes`, `constantes`)
+- Reutilização de código através de helpers, utilitários e POMs
 
 ### Page Object Model (POM)
-- Encapsulamento de seletores e ações
-- Redução de duplicação de código
-- Testes mais legíveis e fáceis de manter
+- Encapsulamento de seletores, ações e fluxos de interação
+- Redução de duplicação e aumento da reutilização
+- Testes mais limpos, legíveis e fáceis de manter
 
 ### Testes independentes
 - Cada teste prepara os seus próprios dados
-- Não existe dependência entre testes
-- Execução paralela segura
+- Zero dependência entre testes
+- Execução paralela segura e determinística
 
 ### Dados dinâmicos
 - Geração automática de dados válidos quando necessário
-- Evita conflitos e dependências de estado
+- Evita conflitos, dependências de estado e efeitos colaterais
+- Garante reprodutibilidade total da execução
+
 
 ### Configuração centralizada
-- `playwright.config.js` controla ambiente, timeouts, browsers e relatórios
-- Seleção automática entre ambiente local e ambiente CI
+- `playwright.config.js` controla ambiente (local vs remoto CRE), timeouts globais, browsers, diretórios de testes, relatórios e evidências (screenshots, vídeos, traces)
+- Seleção automática do ambiente através de variáveis de execução
 
 ### Relatórios completos
-- HTML Report com screenshots, traces e detalhes de execução
-- Artefactos guardados no GitHub Actions
+- HTML Report com resultados detalhados, screenshots automáticos, vídeos (quando ativados) e traces completos para debugging
+- Artefactos disponíveis no CI quando o GitHub Actions está ativo
 
 ### Execução cross-browser
 - Testes preparados para Chromium, Firefox e WebKit
@@ -298,35 +330,38 @@ O projeto segue um conjunto de boas práticas de automação que garantem qualid
 
 ## 🚀 Integração Contínua (GitHub Actions)
 
-O projeto inclui um pipeline de Integração Contínua configurado com GitHub Actions.  
-O objetivo é garantir que os testes são executados automaticamente em cada push ou pull request.
+O projeto inclui uma configuração completa de Integração Contínua utilizando GitHub Actions.  
+Esta configuração permite executar automaticamente a suíte de testes contra o ambiente remoto do formador, garantindo consistência e reprodutibilidade.
+
+**Nota importante: O GitHub Actions encontra‑se desativado para evitar bloqueio automático da conta, apesar de a configuração CI estar totalmente implementada e documentada no PDF de entrega.**
 
 ### Ambiente de execução no CI
-No GitHub Actions, os testes são executados contra o ambiente remoto disponibilizado pelo formador:
+Quando ativo, o GitHub Actions executa os testes contra o ambiente remoto disponibilizado pelo formador: https://cre.mestre-qa.com/
 
-https://cre.mestre-qa.com/
-
-Este ambiente permite que todos os testes passem com sucesso, conforme o requisito adicional do exercício.
+Este ambiente garante que todos os testes passam com sucesso, conforme o requisito adicional do exercício.
 
 ### Seleção automática do ambiente
 O ficheiro `playwright.config.js` utiliza variáveis de ambiente para selecionar automaticamente:
-- ambiente local (`http://localhost:3000`) quando executado na máquina do utilizador
-- ambiente remoto (`https://cre.mestre-qa.com/`) quando executado no GitHub Actions
+- ambiente local → `http://localhost:3000`
+- ambiente remoto → `https://cre.mestre-qa.com/`
+
+Esta lógica permite que a mesma suíte de testes funcione tanto localmente como no CI, sem alterações manuais.
 
 ### Artefactos gerados no CI
-O pipeline gera automaticamente:
+Quando o pipeline está ativa, o GitHub Actions gera automaticamente:
 - HTML Report
 - Traces
-- Screenshots (quando aplicável)
+- Screenshots (em caso de falha)
+- Vídeos (quando configurados)
 
 Estes artefactos ficam disponíveis para consulta no separador “Actions” do repositório.
 
 ### Objetivo do pipeline
-O pipeline demonstra:
+A configuração CI demonstra:
 - execução automática dos testes
 - integração com ambiente remoto
 - geração de relatórios
-- conformidade com o requisito
+- conformidade com o requisito da certificação CRE
 
 ---
 
@@ -334,58 +369,32 @@ O pipeline demonstra:
 
 Todos os casos de teste foram analisados de acordo com o enunciado oficial.
 
-Os casos abaixo não foram implementados devido a limitações técnicas da aplicação, comportamento inconsistente da UI ou dependências que impediam a validação automática de forma confiável.
-
-### 📌 CT‑FE‑017 — Aprovar Arrendamento (Funcionário)
-**Motivo da não implementação completa: instabilidade do DOM e dados dinâmicos**
-
-Durante o desenvolvimento, verificou‑se que:
-- o arrendamento criado pelo aluno nem sempre aparece imediatamente na página `/aprovacoes.html`
-- o DOM continua a atualizar após o carregamento inicial
-- o card “PENDENTE” pode demorar a renderizar ou surgir fora de ordem
-- o teste passa numa execução e falha na seguinte (flaky)
-
-Este comportamento foi confirmado várias vezes:  
-**o teste é funcional, mas não é determinístico**, tornando‑o inadequado para automação estável.
-
-### 📌 CT‑FE‑018 — Registrar Compra (Aluno)
-**Motivo da não implementação completa: falta de elementos verificáveis na UI**
-
-O fluxo principal funciona (alerta de sucesso), mas o enunciado exige:
-1. validar redução do estoque na página de livros  
-2. validar que a compra aparece em `/minhas-compras.html` com status “PENDENTE”
-
-Problemas encontrados:
-- a página de livros não atualiza o estoque imediatamente após a compra  
-- o valor exibido não reflete o novo estado sem refresh manual  
-- a página `/minhas-compras.html` não apresenta identificadores únicos para localizar a compra criada  
-- a compra nem sempre aparece imediatamente após o POST
-
-Sem elementos estáveis no DOM, **não é possível validar o estoque nem localizar a compra criada**.
+Os casos abaixo não foram totalmente automatizados devido a limitações técnicas da aplicação, comportamento inconsistente da UI ou dependências de backend que impediam uma validação automática determinística e estável.
 
 ### 📌 CT‑FE‑021 — Criar Funcionário pela UI Admin
-**Motivo da não implementação completa: tabela depende de backend real**
+**Estado: parcialmente automatizado (fluxo de criação), sem validação de tabela  
+Motivo da não implementação completa: tabela depende de backend real**
 
 O enunciado exige validar que:
 - o novo usuário aparece na tabela após criação
 
 Contudo:
 - a tabela `/admin-usuarios.html` depende de `fetch('/usuarios')`
-- durante os testes UI, **não existe backend ativo**
+- durante os testes UI, **não existe backend ativo** para alimentar a tabela
 - a tabela nunca carrega dados reais
 - não é possível verificar se o novo funcionário foi criado
 
-A criação funciona (alerta de sucesso), mas **a validação da tabela é impossível sem backend**.
+O fluxo de criação foi automatizado (preenchimento do formulário e alerta de sucesso), mas a **validação da presença do novo funcionário na tabela não é possível sem backend funcional**.
 
 ### 📌 CT‑FE‑022 — Editar Usuário na Tabela
 **Motivo da não implementação: tabela não carrega sem backend**
 
 Tal como no CT‑FE‑021:
-- a tabela não carrega
-- não existem dados para editar
+- a tabela não carrega dados reais
+- não existem utilizadores disponíveis para edição
 - não é possível validar persistência após refresh
 
-Sem dados reais, **não existe cenário para editar**.
+Sem dados reais, **não existe cenário consistente para editar**.
 
 ### 📌 CT‑FE‑023 — Excluir Usuário
 **Motivo da não implementação: ausência de dados carregados**
@@ -401,7 +410,7 @@ Como a tabela não carrega:
 - não é possível validar remoção
 
 ### Conclusão
-Os casos acima não foram implementados por motivos técnicos e não por falta de análise.  
+Os casos acima não foram totalmente implementados por motivos técnicos e não por falta de análise.  
 Todos os restantes cenários críticos foram automatizados com sucesso, incluindo:
 - autenticação
 - perfis e permissões
@@ -413,7 +422,7 @@ Todos os restantes cenários críticos foram automatizados com sucesso, incluind
 - proteção de rotas
 - logout
 
-A cobertura entregue cumpre os requisitos essenciais do exercício.
+A cobertura entregue cumpre os requisitos essenciais do exercício, mantendo foco em estabilidade, determinismo e fidelidade ao comportamento real da aplicação.
 
 ---
 
@@ -424,8 +433,10 @@ Este projeto foi desenvolvido no âmbito da Certificação Rumos Expert (CRE) �
 O trabalho reflete:
 - aplicação de boas práticas de automação
 - implementação de testes de API e UI com Playwright
-- integração contínua com GitHub Actions
-- documentação clara, modular e profissional
+- arquitetura modular, escalável e consistente
+- documentação clara, profissional e orientada ao avaliador
+- configuração completa de Integração Contínua (GitHub Actions)  
+  (desativada para evitar bloqueio automático da conta, mas totalmente implementada e documentada)
 
 👤 Autor: Anthony Esteves
 
